@@ -1,4 +1,4 @@
- class CreateDTO {
+  export class CreateDTO {
     constructor({emal,nombre, password,rolId}){
         this.email = email
         this.nombre = nombre
@@ -6,8 +6,3 @@
         this.rolId = Number(rolId)
     }
 }
-
-
-export default ({
-    CreateDTO
-})
