@@ -23,7 +23,7 @@ function LoginPage() {
       style={{ backgroundColor: '#f7f9fb', color: '#191c1e', fontFamily: 'Inter, sans-serif' }}
     >
       {/* Top Navigation Bar */}
-      <header className="fixed-top w-100 d-flex align-items-center justify-content-center p-3" style={{ backgroundColor: '#f7f9fb', height: '64px' }}>
+      <header className="fixed-top w-100 d-flex align-items-center justify-content-center p-3 mt-3" style={{ backgroundColor: '#f7f9fb', height: '64px' }}>
         <div className="d-flex align-items-center gap-2">
           <i className="bi bi-shield-lock-fill fs-3" style={{ color: '#000000' }}></i>
           <h1 className="h4 fw-bold mb-0" style={{ color: '#000000' }}>CoreIncident</h1>
@@ -38,11 +38,11 @@ function LoginPage() {
         >
           {/* Branding/Identity */}
           <div className="d-flex flex-column align-items-center text-center gap-2 mb-4">
-            <div className="d-inline-flex p-3 rounded-circle mb-2" style={{ backgroundColor: '#d0e1fb' }}>
+            <div className="d-inline-flex p-2 rounded-circle mb-2" style={{ backgroundColor: '#d0e1fb' }}>
               <i className="bi bi-lock-fill fs-2" style={{ color: '#54647a' }}></i>
             </div>
             <h2 className="h3 fw-bold mb-1" style={{ color: '#191c1e' }}>Acceso Seguro</h2>
-            <p className="mb-0" style={{ color: '#505f76', fontSize: '14px' }}>Ingrese sus credenciales de comando y control</p>
+            <p className="mb-0" style={{ color: '#505f76', fontSize: '14px' }}>Ingrese sus credenciales</p>
           </div>
 
           <div aria-live="polite" aria-atomic="true">
@@ -86,7 +86,7 @@ function LoginPage() {
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0" style={{ borderColor: '#76777d' }}>
                   <i className="bi bi-key" style={{ color: '#505f76' }}></i>
-                </span> 
+                </span>
                 <input
                   type={showPassword ? "text" : "password"}
                   className="form-control border-start-0 border-end-4 px-0 shadow-none"
@@ -139,7 +139,7 @@ function LoginPage() {
               className="btn w-100 fw-medium d-flex align-items-center justify-content-center text-decoration-none"
               style={{ minHeight: '48px', border: '1px solid #76777d', color: '#505f76', borderRadius: '8px', backgroundColor: 'transparent' }}
             >
-              Solicitar acceso al sistema
+              Registrarse
             </Link>
           </div>
         </div>

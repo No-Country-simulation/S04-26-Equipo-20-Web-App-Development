@@ -1,7 +1,7 @@
 # 📖 Documentación Frontend — OpsCore
 
 > **Última actualización:** Mayo 2026
-> **Stack:** React 19 + Vite 8 + Bootstrap 5 + React Router 7
+> **Stack:** React 19 + Vite 8 + Bootstrap 5 + React Router 7 + Bootstrap Icons
 > **Arquitectura:** MVC (Modelo-Vista-Controlador)
 
 ---
@@ -15,9 +15,10 @@
 5. [Flujo de Datos](#flujo-de-datos)
 6. [Guía para Nuevos Desarrolladores](#guía-para-nuevos-desarrolladores)
 7. [Convenciones y Reglas](#convenciones-y-reglas)
-8. [Rutas de la Aplicación](#rutas-de-la-aplicación)
-9. [Variables de Entorno](#variables-de-entorno)
-10. [Scripts Disponibles](#scripts-disponibles)
+8. [Sistema de Diseño y UI](#sistema-de-diseño-y-ui)
+9. [Rutas de la Aplicación](#rutas-de-la-aplicación)
+10. [Variables de Entorno](#variables-de-entorno)
+11. [Scripts Disponibles](#scripts-disponibles)
 
 ---
 
@@ -353,6 +354,21 @@ src/views/components/Alert/
 
 ---
 
+## Sistema de Diseño y UI
+
+La aplicación sigue el documento de especificaciones visuales `DESIGN.md`. La integración de esta estética se realiza bajo reglas estrictas de implementación:
+
+1. **Prioridad a Bootstrap:** El layout general (Márgenes, padding, flexbox, cards, grids) se estructura de forma exclusiva utilizando las clases nativas de **Bootstrap 5**, evitando CSS personalizado siempre que sea posible.
+2. **Uso de Colores Inline:** Para mapear la paleta de colores oficial descrita en `DESIGN.md` que no cuente con una clase utility directa de Bootstrap, se emplean estilos inline en React (por ejemplo: `style={{ backgroundColor: '#f7f9fb', color: '#191c1e' }}`).
+3. **Iconografía con Bootstrap Icons:** La suite de íconos oficiales del proyecto es **Bootstrap Icons** (cargada a través de CDN en el `index.html`). Esto sustituye el uso de otras tipografías de iconos (como Material Symbols) garantizando compatibilidad y carga optimizada.
+4. **Layout Auth (Ej. LoginPage y RegisterPage):**
+   - Utilizan la estética de "Glassmorphism" implementando desenfoques de fondo (con pseudo-fondos en `position-absolute` e `filter: blur(...)`).
+   - Todos los inputs se presentan dentro de un contenedor `input-group`, alineando íconos de contexto a la izquierda.
+   - Las contraseñas integran nativamente la función de mostrar/ocultar mediante el cambio dinámico del ícono (`bi-eye` a `bi-eye-slash`).
+   - Los botones de envío se estilan respetando la semántica principal (color `primary: #000000`).
+
+---
+
 ## Rutas de la Aplicación
 
 | Ruta | Página | Layout | Acceso |
@@ -412,6 +428,7 @@ npm run lint
 | react-dom | 19.x | Renderizado en DOM |
 | react-router-dom | 7.x | Enrutamiento SPA |
 | bootstrap | 5.x | Framework CSS |
+| bootstrap-icons | N/A (CDN) | Suite de Íconos |
 | vite | 8.x | Bundler/Dev server |
 
 ---
@@ -435,8 +452,8 @@ npm run lint
 | `views/components/Navbar/Navbar.jsx` | View | Barra de navegación |
 | `views/components/Spinner/Spinner.jsx` | View | Indicador de carga |
 | `views/components/StatusBadge/StatusBadge.jsx` | View | Badge de estado |
-| `views/pages/LoginPage.jsx` | View | Página de login |
-| `views/pages/RegisterPage.jsx` | View | Página de registro |
+| `views/pages/LoginPage.jsx` | View | Página de login (Diseño aplicado) |
+| `views/pages/RegisterPage.jsx` | View | Página de registro (Diseño aplicado) |
 | `views/pages/DashboardPage.jsx` | View | Dashboard principal |
 | `views/pages/IncidentListPage.jsx` | View | Lista de incidentes |
 | `views/pages/ReportIncidentPage.jsx` | View | Formulario de reporte |
