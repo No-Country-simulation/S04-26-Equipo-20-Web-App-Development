@@ -1,5 +1,5 @@
 export class CreateDTO {
-    constructor({emal,nombre, password,rolId}){
+    constructor({email,nombre, password,rolId}){
         this.email = email
         this.nombre = nombre
         this.password = password
