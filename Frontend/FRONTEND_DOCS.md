@@ -483,3 +483,35 @@ npm run lint
 | `styles/global.css` | Styles | Estilos globales |
 | `App.jsx` | Root | Componente raíz |
 | `main.jsx` | Root | Punto de entrada |
+
+## 📝 Actualizaciones Recientes (Mayo 2026) — Por: Luis Antonio Feliz Mambrú
+
+Se han finalizado e integrado las interfaces críticas para el ciclo de vida del incidente, siguiendo estrictamente la arquitectura MVC y los lineamientos de diseño móvil.
+
+### 1. Nuevas Interfaces Implementadas
+
+| Pantalla | Archivo | Descripción Técnica |
+|----------|---------|----------------------|
+| **Listado de Incidentes** | `IncidentListPage.jsx` | Implementación de `sticky-top` para búsqueda, filtros por chips con scroll horizontal y tarjetas de incidentes con bordes dinámicos por prioridad. |
+| **Reportar Incidente** | `ReportIncidentPage.jsx` | Formulario reactivo con manejo de estado (`useState`), validaciones visuales en tiempo real y área de carga de evidencia multimedia. |
+
+### 2. Mejoras en Componentes Globales (`views/components/`)
+
+- **Navbar.jsx**: 
+    - Se optimizó el sistema de iconos dinámicos para evitar fallos de renderizado.
+    - Se mapearon manualmente los iconos activos (ej: `bi-card-checklist`) para asegurar compatibilidad con la librería de Bootstrap Icons.
+    - Se añadió efecto de desenfoque (`backdrop-filter: blur(12px)`) para cumplir con la estética minimalista del proyecto.
+
+### 3. Integración con el Controlador
+
+- **Manejo de Formularios**: La página `ReportIncidentPage.jsx` ya cuenta con la lógica de captura de datos preparada. Se estructuró el objeto `formData` para que coincida con el esquema definido en `models/schemas/incidentSchema.js`.
+- **Navegación**: Se vinculó el **Floating Action Button (FAB)** del listado para redirigir automáticamente a la creación de incidentes mediante el router del controlador.
+
+### 4. Estándares Semánticos Aplicados
+
+Se reforzó el uso de HTML5 semántico en todas las nuevas vistas:
+- `<main>` para los contenedores de página.
+- `<article>` para las tarjetas de incidentes individuales.
+- `<header>` y `<nav>` independientes para facilitar la accesibilidad y el SEO interno de la SPA.
+
+---
