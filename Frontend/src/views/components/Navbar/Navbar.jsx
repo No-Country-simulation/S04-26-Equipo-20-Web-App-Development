@@ -1,78 +1,48 @@
 /**
- * Navbar — Barra de navegación principal de OpsCore.
- *
- * Semántica: <nav aria-label> con NavLink para active state automático.
- * Bootstrap 5.3: navbar-expand-lg, bg-body-tertiary, aria-current.
- * React Router: NavLink con className callback para active styling.
+ * Navbar — Barra de navegación inferior de OpsCore.
  */
 
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../../controllers/hooks/useAuth';
 
 const NAV_ITEMS = [
-  { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-  { to: '/incidents', label: 'Incidentes', icon: '🔔' },
-  { to: '/incidents/new', label: 'Reportar', icon: '➕' },
-  { to: '/root-cause', label: 'Análisis de Causas', icon: '🔍' },
-  { to: '/users', label: 'Usuarios', icon: '👥' },
+  { to: '/dashboard', label: 'Home', icon: 'bi-house' },
+  { to: '/incidents', label: 'Incidentes', icon: 'bi-card-list' },
+  { to: '/root-cause', label: 'Reportes', icon: 'bi-bar-chart' },
+  { to: '/users', label: 'Ajustes', icon: 'bi-gear' },
 ];
 
 function Navbar() {
-  const { user, logout } = useAuth();
-
-  const navLinkClass = ({ isActive }) =>
-    `nav-link${isActive ? ' active' : ''}`;
-
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegación principal">
-      <div className="container-fluid">
-        <NavLink className="navbar-brand fw-bold" to="/">
-          ⚙️ OpsCore
-        </NavLink>
-
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarMain"
-          aria-controls="navbarMain"
-          aria-expanded="false"
-          aria-label="Abrir menú de navegación"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarMain">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {NAV_ITEMS.map(({ to, label, icon }) => (
-              <li className="nav-item" key={to}>
-                <NavLink
-                  className={navLinkClass}
-                  to={to}
-                  aria-current={({ isActive }) => isActive ? 'page' : undefined}
-                >
-                  {icon} {label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-
-          <div className="d-flex align-items-center">
-            <span className="text-light me-3" aria-label="Usuario actual">
-              👤 {user?.name || 'Usuario'}
-            </span>
-            <button
-              className="btn btn-outline-light btn-sm"
-              onClick={logout}
-              type="button"
-              aria-label="Cerrar sesión"
+    <footer 
+      className="fixed-bottom w-100" 
+      style={{ backgroundColor: 'rgba(247, 249, 251, 0.8)', backdropFilter: 'blur(12px)', zIndex: 1040 }}
+    >
+      <div className="w-100 mx-auto d-flex justify-content-between align-items-center px-4 py-3" style={{ maxWidth: '1440px' }}>
+        <div className="d-flex w-100 justify-content-around align-items-end">
+          {NAV_ITEMS.map(({ to, label, icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) => 
+                `d-flex flex-column align-items-center gap-1 text-decoration-none ${isActive ? '' : 'opacity-75'}`
+              }
+              style={({ isActive }) => ({
+                color: isActive ? '#000000' : '#505f76',
+                cursor: 'pointer'
+              })}
             >
-              Cerrar Sesión
-            </button>
-          </div>
+              {({ isActive }) => (
+                <>
+                  <i className={`bi ${isActive ? icon + '-fill' : icon} fs-4`}></i>
+                  <span className="fw-semibold" style={{ fontSize: '12px' }}>{label}</span>
+                  {isActive && <div className="rounded-circle mt-1" style={{ width: '4px', height: '4px', backgroundColor: '#000000' }}></div>}
+                </>
+              )}
+            </NavLink>
+          ))}
         </div>
       </div>
-    </nav>
+    </footer>
   );
 }
 
