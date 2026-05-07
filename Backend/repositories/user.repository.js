@@ -1,11 +1,21 @@
-import {PrismaClient} from '@prisma/client'
-const prisma = new PrismaClient();
+import prisma from '../config/db.js'
 
 export class UserRepository{
-    async create(data){
+    
+    async create(userData){
         return await prisma.user.create({
-            data,
-            include:{rol:true}
+            data:userData
         })
     }
+
+
+    async findByEmail (correo){
+    return await prisma.user.findUnique({
+        where:{correo}
+    })
+}
+
+
+
+
 }
