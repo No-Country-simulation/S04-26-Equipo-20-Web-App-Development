@@ -13,8 +13,6 @@ function IncidentDetailPage() {
   const { selectedIncident, loading, error, handleGoBack } = useIncidentDetailLogic();
 
   if (loading) return <Spinner text="Cargando detalle..." />;
-  if (error) return <div className="alert alert-danger m-4" role="alert">{error}</div>;
-  if (!selectedIncident) return <div className="alert alert-warning m-4" role="alert">Incidente no encontrado</div>;
 
   return (
     <section className="container py-4" aria-labelledby="detail-heading">
@@ -23,6 +21,16 @@ function IncidentDetailPage() {
           ← Volver
         </button>
       </nav>
+
+      {/* Alerta de error no bloqueante */}
+      <div aria-live="polite" aria-atomic="true">
+        {error && (
+          <div className="alert alert-danger mb-3 shadow-sm" role="alert">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            {error}
+          </div>
+        )}
+      </div>
 
       <article className="card" aria-labelledby="detail-heading">
         <header className="card-header d-flex justify-content-between align-items-center">

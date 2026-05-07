@@ -11,11 +11,20 @@ function RootCausePage() {
   const { analysis, loading, error } = useRootCauseLogic();
 
   if (loading) return <Spinner text="Cargando análisis..." />;
-  if (error) return <div className="alert alert-danger m-4" role="alert">{error}</div>;
 
   return (
     <div className="container-fluid py-4">
       <h1 className="mb-4">🔍 Análisis de Causas Raíz</h1>
+
+      {/* Alerta de error no bloqueante */}
+      <div aria-live="polite" aria-atomic="true">
+        {error && (
+          <div className="alert alert-danger mb-4 shadow-sm" role="alert">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            {error}
+          </div>
+        )}
+      </div>
 
       {/* Filtros */}
       <section aria-labelledby="rc-filters-heading" className="mb-4">

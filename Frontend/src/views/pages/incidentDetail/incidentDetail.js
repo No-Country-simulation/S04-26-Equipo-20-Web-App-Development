@@ -8,8 +8,20 @@ export function useIncidentDetailLogic() {
 
   const handleGoBack = () => navigate(-1);
 
+  const safeIncident = selectedIncident || {
+    id: id || 'Desconocido',
+    title: 'Detalle no disponible',
+    description: 'No se pudo cargar la información del incidente. Por favor, verifique su conexión o intente más tarde.',
+    status: 'UNKNOWN',
+    priority: 'UNKNOWN',
+    category: 'UNKNOWN',
+    assignedTo: null,
+    createdAt: null,
+    updatedAt: null
+  };
+
   return {
-    selectedIncident,
+    selectedIncident: safeIncident,
     loading,
     error,
     handleGoBack

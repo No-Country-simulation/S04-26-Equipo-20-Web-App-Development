@@ -11,10 +11,18 @@ function UserManagementPage() {
   const { users, loading, error } = useUserManagementLogic();
 
   if (loading) return <Spinner text="Cargando usuarios..." />;
-  if (error) return <div className="alert alert-danger m-4" role="alert">{error}</div>;
 
   return (
     <div className="container-fluid py-4">
+      {/* Alerta de error no bloqueante */}
+      <div aria-live="polite" aria-atomic="true">
+        {error && (
+          <div className="alert alert-danger mb-4 shadow-sm" role="alert">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            {error}
+          </div>
+        )}
+      </div>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>👥 Gestión de Usuarios</h1>
         <button className="btn btn-primary" type="button">➕ Nuevo Usuario</button>
