@@ -6,4 +6,3 @@ export class CreateDTO {
         this.rolId = Number(rolId)
     }
 }
-
