@@ -4,11 +4,11 @@
  * Semántica: <section>, th scope, aria-label en botones de acción.
  */
 
-import { useUsers } from '../../controllers/hooks/useUsers';
-import Spinner from '../components/Spinner/Spinner';
+import Spinner from '../../components/Spinner/Spinner';
+import { useUserManagementLogic } from './userManagement';
 
 function UserManagementPage() {
-  const { users, loading, error } = useUsers();
+  const { users, loading, error } = useUserManagementLogic();
 
   if (loading) return <Spinner text="Cargando usuarios..." />;
   if (error) return <div className="alert alert-danger m-4" role="alert">{error}</div>;

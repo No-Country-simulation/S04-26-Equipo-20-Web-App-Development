@@ -5,14 +5,14 @@
  * A11Y: labels asociados a selects, aria-label en botón emoji, table caption.
  */
 
-import { useIncidents } from '../../controllers/hooks/useIncidents';
-import StatusBadge from '../components/StatusBadge/StatusBadge';
-import Spinner from '../components/Spinner/Spinner';
+import StatusBadge from '../../components/StatusBadge/StatusBadge';
+import Spinner from '../../components/Spinner/Spinner';
 import { Link } from 'react-router-dom';
-import { INCIDENT_STATUS, INCIDENT_PRIORITY } from '../../models/schemas/incidentSchema';
+import { INCIDENT_STATUS, INCIDENT_PRIORITY } from '../../../models/schemas/incidentSchema';
+import { useIncidentListLogic } from './incidentList';
 
 function IncidentListPage() {
-  const { incidents, loading, error, deleteIncident } = useIncidents();
+  const { incidents, loading, error, deleteIncident } = useIncidentListLogic();
 
   if (loading) return <Spinner text="Cargando incidentes..." />;
 
@@ -27,9 +27,9 @@ function IncidentListPage() {
   return (
     <div className="container-fluid py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>🔔 Incidentes</h1>
+        <h1> Incidentes</h1>
         <Link to="/incidents/new" className="btn btn-primary">
-          ➕ Reportar Incidente
+          Reportar Incidente
         </Link>
       </div>
 

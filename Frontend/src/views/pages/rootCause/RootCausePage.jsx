@@ -4,11 +4,11 @@
  * Semántica: <section> con aria-labelledby, <label> en filtros, th scope.
  */
 
-import Spinner from '../components/Spinner/Spinner';
-import { useRootCause } from '../../controllers/hooks/useRootCause';
+import Spinner from '../../components/Spinner/Spinner';
+import { useRootCauseLogic } from './rootCause';
 
 function RootCausePage() {
-  const { analysis, loading, error } = useRootCause();
+  const { analysis, loading, error } = useRootCauseLogic();
 
   if (loading) return <Spinner text="Cargando análisis..." />;
   if (error) return <div className="alert alert-danger m-4" role="alert">{error}</div>;

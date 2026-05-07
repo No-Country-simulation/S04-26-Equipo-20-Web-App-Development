@@ -5,22 +5,18 @@
  * A11Y: aria-live en errores, aria-required, role=alert.
  */
 
-import { useState } from 'react';
-import { useIncidents } from '../../controllers/hooks/useIncidents';
-import { INCIDENT_PRIORITY, INCIDENT_CATEGORIES, defaultIncident } from '../../models/schemas/incidentSchema';
+import { INCIDENT_PRIORITY, INCIDENT_CATEGORIES } from '../../../models/schemas/incidentSchema';
+import { useReportIncidentLogic } from './reportIncident';
 
 function ReportIncidentPage() {
-  const [formData, setFormData] = useState({ ...defaultIncident });
-  const { createIncident, loading, error } = useIncidents();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createIncident(formData);
-  };
+  const {
+    formData,
+    loading,
+    error,
+    handleChange,
+    handleSubmit,
+    handleReset
+  } = useReportIncidentLogic();
 
   return (
     <section className="container py-4" aria-labelledby="report-heading">
@@ -136,7 +132,7 @@ function ReportIncidentPage() {
               <button
                 type="reset"
                 className="btn btn-outline-secondary"
-                onClick={() => setFormData({ ...defaultIncident })}
+                onClick={handleReset}
               >
                 Limpiar
               </button>

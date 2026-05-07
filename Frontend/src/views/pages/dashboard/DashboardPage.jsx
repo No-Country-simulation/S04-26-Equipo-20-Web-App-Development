@@ -2,18 +2,11 @@
  * Dashboard Page — Panel principal con métricas y KPIs.
  */
 
-import { useDashboard } from '../../controllers/hooks/useDashboard';
-import MetricCard from '../components/MetricCard/MetricCard';
+import MetricCard from '../../components/MetricCard/MetricCard';
+import { useDashboardLogic } from './dashboard';
 
 function DashboardPage() {
-  const { metrics, loading, error } = useDashboard();
-
-  // Variables por defecto si no hay data (para pintar el dashboard sin importar el error)
-  const data = metrics || {
-    totalIncidents: 0,
-    openIncidents: 0,
-    resolvedToday: 0
-  };
+  const { data, loading, error } = useDashboardLogic();
 
   return (
     <div className="py-4">
@@ -48,10 +41,10 @@ function DashboardPage() {
           <h2 id="activity-heading" className="h5 fw-bold mb-0" style={{ color: '#191c1e' }}>Actividad Reciente</h2>
           <button className="btn btn-link text-decoration-none fw-medium p-0 shadow-none" style={{ color: '#000000', fontSize: '14px' }}>Ver todo</button>
         </div>
-        
+
         <div className="rounded-4 overflow-hidden border bg-white" style={{ borderColor: '#e0e3e5', boxShadow: '0 4px 6px -1px rgba(19, 27, 46, 0.05)' }}>
           <div className="d-flex flex-column">
-            
+
             {/* Elementos de Actividad - Demo Visual */}
             <div className="d-flex align-items-center gap-3 p-4 border-bottom" style={{ borderColor: '#e0e3e5', cursor: 'pointer' }}>
               <div className="position-relative">
@@ -97,10 +90,10 @@ function DashboardPage() {
       <section aria-labelledby="map-heading" className="mb-4">
         <h2 id="map-heading" className="visually-hidden">Mapa de Incidentes</h2>
         <div className="position-relative w-100 rounded-4 overflow-hidden border" style={{ height: '192px', borderColor: '#e0e3e5', boxShadow: '0 4px 6px -1px rgba(19, 27, 46, 0.05)' }}>
-          <img 
-            className="w-100 h-100 object-fit-cover" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8ybKlqWe0ZaMKG1JJXLDdEgdIVjyL1SUcI-Nl7tGZjYvVwJ57fRhh31c3apMGkT7jPjGfmezGbdafsBVHXV4jYHVuWemVSeuYOKMZTYYGIpCYM1RElpisdv9lgBTNvRM8JgbU6ehz1Dzca697284BeERusY56wWs4ePkhdhA_PgeBcuWDIU_zlofT7L5aitCKQ4Hhhzr6k0CpZdw-iUAUbamA1F7yypE0WGHECi_KueXKvXdvq92wiCesDvH37YYC9kqEbeLgit8" 
-            alt="Mapa de Incidentes" 
+          <img
+            className="w-100 h-100 object-fit-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8ybKlqWe0ZaMKG1JJXLDdEgdIVjyL1SUcI-Nl7tGZjYvVwJ57fRhh31c3apMGkT7jPjGfmezGbdafsBVHXV4jYHVuWemVSeuYOKMZTYYGIpCYM1RElpisdv9lgBTNvRM8JgbU6ehz1Dzca697284BeERusY56wWs4ePkhdhA_PgeBcuWDIU_zlofT7L5aitCKQ4Hhhzr6k0CpZdw-iUAUbamA1F7yypE0WGHECi_KueXKvXdvq92wiCesDvH37YYC9kqEbeLgit8"
+            alt="Mapa de Incidentes"
           />
           <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4" style={{ background: 'linear-gradient(to top, rgba(19, 27, 46, 0.6), transparent)' }}>
             <div className="d-flex align-items-center justify-content-between w-100">

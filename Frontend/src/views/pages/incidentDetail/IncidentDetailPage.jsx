@@ -5,15 +5,12 @@
  * <dl> para datos clave-valor.
  */
 
-import { useParams, useNavigate } from 'react-router-dom';
-import { useIncidents } from '../../controllers/hooks/useIncidents';
-import StatusBadge from '../components/StatusBadge/StatusBadge';
-import Spinner from '../components/Spinner/Spinner';
+import StatusBadge from '../../components/StatusBadge/StatusBadge';
+import Spinner from '../../components/Spinner/Spinner';
+import { useIncidentDetailLogic } from './incidentDetail';
 
 function IncidentDetailPage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { selectedIncident, loading, error } = useIncidents(id);
+  const { selectedIncident, loading, error, handleGoBack } = useIncidentDetailLogic();
 
   if (loading) return <Spinner text="Cargando detalle..." />;
   if (error) return <div className="alert alert-danger m-4" role="alert">{error}</div>;
@@ -22,7 +19,7 @@ function IncidentDetailPage() {
   return (
     <section className="container py-4" aria-labelledby="detail-heading">
       <nav aria-label="Volver">
-        <button className="btn btn-outline-secondary mb-3" onClick={() => navigate(-1)} type="button">
+        <button className="btn btn-outline-secondary mb-3" onClick={handleGoBack} type="button">
           ← Volver
         </button>
       </nav>

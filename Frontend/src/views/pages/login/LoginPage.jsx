@@ -2,20 +2,16 @@
  * Login Page — Página de inicio de sesión.
  */
 
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../controllers/hooks/useAuth';
+import { useLoginLogic } from './login';
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const { login, loading, error } = useAuth();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login({ email, password });
-  };
+  const {
+    email, setEmail,
+    password, setPassword,
+    showPassword, setShowPassword,
+    loading, error, handleSubmit
+  } = useLoginLogic();
 
   return (
     <div
