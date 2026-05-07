@@ -1,4 +1,4 @@
-# Documentación Técnica del Proyecto: OpsCore - Sistema de Gestión de Incidentes Industriales
+# Documentación Técnica del Proyecto: CoreIncident - Sistema de Gestión de Incidentes Industriales
 
 ## 1. Resumen Ejecutivo
 Este proyecto consiste en el desarrollo de una plataforma integral para la gestión, monitoreo y respuesta ante incidentes en entornos industriales. La solución permite centralizar la comunicación entre equipos técnicos, asegurar el cumplimiento de normativas de seguridad y optimizar los tiempos de resolución de fallos críticos.

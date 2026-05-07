@@ -1,135 +1,182 @@
-/**
- * Incident List Page — Lista de todos los incidentes con filtros.
- *
- * Semántica: <section> con aria-labelledby, <label> en filtros, aria-label en botones.
- * A11Y: labels asociados a selects, aria-label en botón emoji, table caption.
- */
+//import React from "react";
+import  StatusBadge from "../components/StatusBadge/StatusBadge"; // Reutilizando tu componente
 
-import { useIncidents } from '../../controllers/hooks/useIncidents';
-import StatusBadge from '../components/StatusBadge/StatusBadge';
-import Spinner from '../components/Spinner/Spinner';
-import { Link } from 'react-router-dom';
-import { INCIDENT_STATUS, INCIDENT_PRIORITY } from '../../models/schemas/incidentSchema';
+const INCIDENTS_DATA = [
+  {
+    id: "#INC-5829",
+    title: "Fuga de gas - Sector Industrial B",
+    date: "24 Oct, 14:30",
+    location: "Planta Central",
+    status: "Pendiente",
+    variant: "danger",
+  },
+  {
+    id: "#INC-5824",
+    title: "Falla de suministro eléctrico",
+    date: "24 Oct, 12:15",
+    reporter: "Ing. Ramírez",
+    status: "En Proceso",
+    variant: "primary",
+  },
+  {
+    id: "#INC-5812",
+    title: "Acceso no autorizado - Puerta Norte",
+    date: "23 Oct, 19:45",
+    closedBy: "Admin",
+    status: "Resuelto",
+    variant: "success",
+  },
+  {
+    id: "#INC-5801",
+    title: "Alarma de incendio - Almacén 4",
+    date: "23 Oct, 08:20",
+    priority: "Crítico",
+    status: "Pendiente",
+    variant: "danger",
+  },
+];
 
-function IncidentListPage() {
-  const { incidents, loading, error, deleteIncident } = useIncidents();
-
-  if (loading) return <Spinner text="Cargando incidentes..." />;
-
-  if (error) {
-    return (
-      <div className="alert alert-danger m-4" role="alert" aria-live="polite">
-        {error}
-      </div>
-    );
-  }
-
+const IncidentListPage = () => {
   return (
-    <div className="container-fluid py-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>🔔 Incidentes</h1>
-        <Link to="/incidents/new" className="btn btn-primary">
-          ➕ Reportar Incidente
-        </Link>
-      </div>
+    <main
+      className="container-fluid pb-5 mb-5"
+      style={{ backgroundColor: "#F8F9FA", minHeight: "100vh" }}
+    >
+      {/* Header & Search */}
+      <header
+        className="pt-4 pb-3 sticky-top bg-white px-3 shadow-sm"
+        style={{ zIndex: 1020 }}
+      >
+        <div className="d-flex align-items-center mb-3">
+          <i className="bi bi-shield-lock-fill me-2 fs-4"></i>
+          <h1 className="h5 fw-bold mb-0">CoreIncident</h1>
+        </div>
 
-      {/* Filtros */}
-      <section aria-labelledby="filters-heading" className="mb-4">
-        <h2 id="filters-heading" className="visually-hidden">Filtros de incidentes</h2>
-        <div className="row g-3">
-          <div className="col-6 col-md-3">
-            <label htmlFor="filterStatus" className="form-label">Estado</label>
-            <select className="form-select" id="filterStatus" aria-label="Filtrar por estado">
-              <option value="">Todos los estados</option>
-              {Object.entries(INCIDENT_STATUS).map(([key, value]) => (
-                <option key={key} value={value}>{key}</option>
-              ))}
-            </select>
-          </div>
-          <div className="col-6 col-md-3">
-            <label htmlFor="filterPriority" className="form-label">Prioridad</label>
-            <select className="form-select" id="filterPriority" aria-label="Filtrar por prioridad">
-              <option value="">Todas las prioridades</option>
-              {Object.entries(INCIDENT_PRIORITY).map(([key, value]) => (
-                <option key={key} value={value}>{key}</option>
-              ))}
-            </select>
-          </div>
-          <div className="col-12 col-md-4">
-            <label htmlFor="searchIncident" className="form-label">Buscar</label>
-            <input
-              type="search"
-              className="form-control"
-              id="searchIncident"
-              placeholder="Buscar incidente..."
-              aria-label="Buscar incidentes por texto"
-            />
+        <div className="input-group mb-3 border rounded-3 overflow-hidden shadow-sm">
+          <span className="input-group-text bg-white border-0">
+            <i className="bi bi-search text-muted"></i>
+          </span>
+          <input
+            type="search"
+            className="form-control border-0 ps-0"
+            placeholder="Buscar incidentes..."
+            aria-label="Buscar"
+          />
+        </div>
+
+        {/* Filtros / Chips */}
+        <nav
+          className="d-flex gap-2 overflow-auto pb-2 no-scrollbar"
+          style={{ whiteSpace: "nowrap" }}
+        >
+          <button className="btn btn-dark btn-sm rounded-pill px-3">
+            Todos
+          </button>
+          <button className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            Pendientes
+          </button>
+          <button className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            En Proceso
+          </button>
+          <button className="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            Resueltos
+          </button>
+        </nav>
+      </header>
+
+      {/* Listado de Incidentes */}
+      <section className="px-3 mt-3">
+        {INCIDENTS_DATA.map((incident, index) => (
+          <article
+            key={index}
+            className="card border-0 shadow-sm rounded-4 mb-3 p-3 position-relative"
+            style={{ borderLeft: `4px solid var(--bs-${incident.variant})` }}
+          >
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <span className="text-muted fw-medium small">{incident.id}</span>
+              <StatusBadge
+                status={incident.status}
+                variant={incident.variant}
+              />
+            </div>
+
+            <h2 className="h6 fw-bold mb-3">{incident.title}</h2>
+
+            <div className="d-flex flex-wrap gap-3 text-muted small">
+              <div className="d-flex align-items-center">
+                <i className="bi bi-calendar3 me-1"></i>
+                {incident.date}
+              </div>
+              <div className="d-flex align-items-center">
+                <i
+                  className={`bi ${incident.location ? "bi-geo-alt" : incident.priority ? "bi-exclamation-octagon" : "bi-person"} me-1`}
+                ></i>
+                {incident.location ||
+                  incident.priority ||
+                  incident.reporter ||
+                  incident.closedBy}
+              </div>
+            </div>
+          </article>
+        ))}
+
+        {/* Banner de Monitoreo */}
+        <div className="card border-0 rounded-4 overflow-hidden mb-4 shadow-sm position-relative text-white">
+          <img
+            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600"
+            className="card-img"
+            alt="Centro de monitoreo"
+            style={{
+              height: "160px",
+              objectFit: "cover",
+              filter: "brightness(0.6)",
+            }}
+          />
+          <div className="card-img-overlay d-flex flex-column justify-content-end">
+            <h3 className="h6 fw-bold mb-1">
+              Monitoreo de Infraestructura Activo
+            </h3>
+            <p className="small mb-0 opacity-75">
+              Sistemas operando al 99.9% de capacidad
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Tabla de incidentes */}
-      <section aria-labelledby="table-heading">
-        <h2 id="table-heading" className="visually-hidden">Lista de incidentes</h2>
-        <div className="card">
-          <div className="table-responsive">
-            <table className="table table-hover mb-0">
-              <caption className="visually-hidden">
-                Tabla con {incidents.length} incidentes registrados
-              </caption>
-              <thead className="table-dark">
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Título</th>
-                  <th scope="col">Prioridad</th>
-                  <th scope="col">Estado</th>
-                  <th scope="col">Fecha</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {incidents.length === 0 ? (
-                  <tr>
-                    <td colSpan="6" className="text-center py-4 text-muted">
-                      No hay incidentes registrados
-                    </td>
-                  </tr>
-                ) : (
-                  incidents.map((incident) => (
-                    <tr key={incident.id}>
-                      <td>#{incident.id}</td>
-                      <td>
-                        <Link to={`/incidents/${incident.id}`}>
-                          {incident.title}
-                        </Link>
-                      </td>
-                      <td>
-                        <span className={`badge bg-${incident.priority === 'critical' ? 'danger' : incident.priority === 'high' ? 'warning' : 'info'}`}>
-                          {incident.priority}
-                        </span>
-                      </td>
-                      <td><StatusBadge status={incident.status} /></td>
-                      <td>{incident.createdAt || '--'}</td>
-                      <td>
-                        <button
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => deleteIncident(incident.id)}
-                          type="button"
-                          aria-label={`Eliminar incidente ${incident.title}`}
-                        >
-                          🗑️
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+      {/* Floating Action Button */}
+      {/*<button
+        className="btn btn-dark rounded-circle position-fixed shadow-lg d-flex align-items-center justify-content-center"
+        style={{
+          width: "56px",
+          height: "56px",
+          bottom: "90px",
+          right: "20px",
+          zIndex: 1030,
+        }}
+        aria-label="Nuevo incidente"
+      >
+        <i className="bi bi-plus-lg fs-3"></i>
+      </button>*/}
+
+      {/* Footer Copyright */}
+      <footer className="text-center py-4 px-3 text-muted border-top mt-2">
+        <p className="small mb-1">
+          © 2024 CoreIncident. Command and Control Systems.
+        </p>
+        <div className="d-flex justify-content-center gap-3 small">
+          <a href="#" className="text-decoration-none text-muted">
+            Soporte
+          </a>
+          <a href="#" className="text-decoration-none text-muted">
+            Privacidad
+          </a>
+          <a href="#" className="text-decoration-none text-muted">
+            Términos
+          </a>
         </div>
-      </section>
-    </div>
+      </footer>
+    </main>
   );
-}
+};
 
 export default IncidentListPage;
