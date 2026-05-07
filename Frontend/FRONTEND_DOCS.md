@@ -364,6 +364,7 @@ src/views/components/Alert/
 4. **Hooks son el único lugar** donde se mezcla estado + API
 5. **Un componente por archivo**
 6. **Props destructuradas** en la firma del componente
+7. **Resiliencia de UI (Offline-First):** Las vistas (`.jsx`) nunca deben bloquear su renderizado principal (`return <div className="error"/>`) si la llamada a la API falla. Los errores deben mostrarse como alertas no bloqueantes dentro del layout, y la capa lógica (`.js`) debe devolver datos por defecto (arrays vacíos, objetos vacíos) para que el mapeo HTML no genere errores.
 
 ---
 
