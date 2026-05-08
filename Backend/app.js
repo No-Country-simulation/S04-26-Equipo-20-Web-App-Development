@@ -1,10 +1,7 @@
 import express from 'express'
-import { UserController } from './controllers/userController.js'
-
-const app = expres()
+import userRoutes from './routes/userRoutes.js'
+const app = express()
 app.use(express.json())
-
-const userController = new UserController()
 
 async function testConection(){
     try {
@@ -15,7 +12,7 @@ async function testConection(){
     }
 }
 
-app.post("/users",(req,res)=>userController(req,res))
+app.use("/user/createUser",userRoutes)
 
 const PORT =process.env.PORT || 3000
 

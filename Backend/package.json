@@ -11,6 +11,7 @@
     "server": "nodemon app.js"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
@@ -23,6 +24,6 @@
     "prisma": "^7.8.0"
   },
   "prisma": {
-  "schema": "prisma/schema.prisma"
-}
+    "schema": "prisma/schema.prisma"
+  }
 }
