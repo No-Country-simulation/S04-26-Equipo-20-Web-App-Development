@@ -1,16 +1,14 @@
 import express from 'express'
 import userRoutes from './routes/userRoutes.js'
+import cors from 'cors'
 const app = express()
 app.use(express.json())
 
-async function testConection(){
-    try {
-        await prisma.$connect()
-        console.log("Conexion exitosa")
-    } catch (error) {
-        console.log(error)
-    }
-}
+app.use(cors({
+    origin:'http://localhost:5173',
+    methods:['GET','POST','PUT','DELETE'],
+    credentials:true
+}))
 
 app.use("/user/createUser",userRoutes)
 
