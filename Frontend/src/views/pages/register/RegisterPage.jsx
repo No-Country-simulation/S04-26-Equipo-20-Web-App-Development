@@ -71,10 +71,10 @@ function RegisterPage() {
                 <input
                   type="text"
                   className="form-control border-start-0 ps-0 shadow-none"
-                  id="name"
-                  name="name"
+                  id="nombre"
+                  name="nombre"
                   placeholder="Tu nombre completo"
-                  value={formData.name}
+                  value={formData.nombre}
                   onChange={handleChange}
                   required
                   style={{ borderColor: '#76777d', height: '48px', backgroundColor: '#ffffff' }}

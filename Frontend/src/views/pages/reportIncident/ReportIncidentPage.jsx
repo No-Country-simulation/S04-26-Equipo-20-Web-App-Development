@@ -42,10 +42,7 @@ function ReportIncidentPage() {
 
       <section className="px-3 pt-4">
         <header className="mb-4">
-          <h2
-            className="display-6 fw-bold mb-1"
-            style={{ fontSize: "1.75rem" }}
-          >
+          <h2 className="display-6 fw-bold mb-1" style={{ fontSize: "1.75rem" }}>
             Reportar Incidente
           </h2>
           <p className="text-muted small">

@@ -3,10 +3,11 @@ import { useAuth } from '../../../controllers/hooks/useAuth';
 
 export function useRegisterLogic() {
   const [formData, setFormData] = useState({
-    name: '',
+    nombre: '',
     email: '',
     password: '',
     confirmPassword: '',
+    rol: 'OPERARIO'
   });
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
