@@ -8,6 +8,10 @@ import {
 
 const incidentService = new IncidentService();
 
+/**
+ * Registra un nuevo incidente.
+ * Estado inicial: OPEN.
+ */
 export const createIncident = async (req, res) => {
     try {
         const dto = new CreateIncidentDTO(req.body);
@@ -18,6 +22,10 @@ export const createIncident = async (req, res) => {
     }
 };
 
+/**
+ * Obtiene el detalle de un incidente por ID.
+ * Incluye historial de estados y comentarios.
+ */
 export const getIncident = async (req, res) => {
     try {
         const incident = await incidentService.getIncident(Number(req.params.id));
@@ -27,6 +35,9 @@ export const getIncident = async (req, res) => {
     }
 };
 
+/**
+ * Lista incidentes con filtros opcionales (status, type, priority, areaId).
+ */
 export const listIncidents = async (req, res) => {
     try {
         const { status, type, priority, areaId } = req.query;
@@ -37,6 +48,11 @@ export const listIncidents = async (req, res) => {
     }
 };
 
+/**
+ * Asigna un técnico a un incidente.
+ * Solo ADMIN o SUPERVISOR.
+ * Cambia estado a: ASSIGNED.
+ */
 export const assignTechnician = async (req, res) => {
     try {
         const dto = new AssignTechnicianDTO(req.body);
@@ -47,6 +63,11 @@ export const assignTechnician = async (req, res) => {
     }
 };
 
+/**
+ * Inicia el progreso del incidente.
+ * Solo el TECNICO asignado.
+ * Cambia estado a: IN_PROGRESS.
+ */
 export const startProgress = async (req, res) => {
     try {
         const incident = await incidentService.startProgress(Number(req.params.id), req.user.id);
@@ -56,6 +77,11 @@ export const startProgress = async (req, res) => {
     }
 };
 
+/**
+ * Resuelve el incidente con una solución y causa raíz.
+ * Solo el TECNICO asignado.
+ * Cambia estado a: RESOLVED.
+ */
 export const resolveIncident = async (req, res) => {
     try {
         const dto = new ResolveIncidentDTO(req.body);
@@ -66,6 +92,11 @@ export const resolveIncident = async (req, res) => {
     }
 };
 
+/**
+ * Cierra formalmente el incidente.
+ * Solo ADMIN o SUPERVISOR.
+ * Cambia estado a: CLOSED.
+ */
 export const closeIncident = async (req, res) => {
     try {
         const incident = await incidentService.closeIncident(Number(req.params.id));
@@ -75,6 +106,11 @@ export const closeIncident = async (req, res) => {
     }
 };
 
+/**
+ * Cancela el incidente.
+ * Solo ADMIN o SUPERVISOR.
+ * Cambia estado a: CANCELLED.
+ */
 export const cancelIncident = async (req, res) => {
     try {
         const incident = await incidentService.cancelIncident(Number(req.params.id));
@@ -84,6 +120,9 @@ export const cancelIncident = async (req, res) => {
     }
 };
 
+/**
+ * Agrega un comentario a un incidente.
+ */
 export const addComment = async (req, res) => {
     try {
         const dto = new CreateCommentDTO(req.body);
@@ -94,6 +133,9 @@ export const addComment = async (req, res) => {
     }
 };
 
+/**
+ * Obtiene la trazabilidad de cambios de estado del incidente.
+ */
 export const getHistory = async (req, res) => {
     try {
         const history = await incidentService.getHistory(Number(req.params.id));
@@ -102,3 +144,4 @@ export const getHistory = async (req, res) => {
         res.status(404).json({ ok: false, error: error.message });
     }
 };
+

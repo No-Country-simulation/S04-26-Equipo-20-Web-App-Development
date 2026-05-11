@@ -2,6 +2,10 @@ import { AreaService } from '../services/area.service.js';
 
 const areaService = new AreaService();
 
+/**
+ * Crea una nueva área de trabajo.
+ * Solo ADMIN.
+ */
 export const createArea = async (req, res) => {
     try {
         const area = await areaService.createArea(req.body.name);
@@ -11,6 +15,9 @@ export const createArea = async (req, res) => {
     }
 };
 
+/**
+ * Lista todas las áreas registradas.
+ */
 export const listAreas = async (req, res) => {
     try {
         const areas = await areaService.listAreas();
@@ -19,3 +26,4 @@ export const listAreas = async (req, res) => {
         res.status(500).json({ ok: false, error: error.message });
     }
 };
+

@@ -3,6 +3,10 @@ import UserDTO from '../dto/userDto.js'
 
 const userService = new UserService();
 
+/**
+ * Registra un nuevo usuario en el sistema.
+ * Hashea la contraseña antes de guardar.
+ */
 export const createUser = async (req, res) => {
     try {
         const userDto = new UserDTO(req.body);
@@ -16,6 +20,9 @@ export const createUser = async (req, res) => {
     }
 };
 
+/**
+ * Autentica un usuario y genera un token JWT.
+ */
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -25,3 +32,4 @@ export const loginUser = async (req, res) => {
         res.status(401).json({ ok: false, error: error.message });
     }
 };
+
