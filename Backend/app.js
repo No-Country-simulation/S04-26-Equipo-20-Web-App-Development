@@ -5,15 +5,15 @@ const app = express()
 app.use(express.json())
 
 app.use(cors({
-    origin:'http://localhost:5173',
-    methods:['GET','POST','PUT','DELETE'],
-    credentials:true
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }))
 
-app.use("/user/createUser",userRoutes)
+app.use("/user/createUser", userRoutes)
 
-const PORT =process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log("Servidor corriendo en el puerto", PORT)
 })
