@@ -3,14 +3,14 @@
  */
 import AppLayout from '../../views/layouts/AppLayout';
 import AuthLayout from '../../views/layouts/AuthLayout';
-import LoginPage from '../../views/pages/LoginPage';
-import RegisterPage from '../../views/pages/RegisterPage';
-import DashboardPage from '../../views/pages/DashboardPage';
-import IncidentListPage from '../../views/pages/IncidentListPage';
-import ReportIncidentPage from '../../views/pages/ReportIncidentPage';
-import IncidentDetailPage from '../../views/pages/IncidentDetailPage';
-import RootCausePage from '../../views/pages/RootCausePage';
-import UserManagementPage from '../../views/pages/UserManagementPage';
+import LoginPage from '../../views/pages/login/LoginPage';
+import RegisterPage from '../../views/pages/register/RegisterPage';
+import DashboardPage from '../../views/pages/dashboard/DashboardPage';
+import IncidentListPage from '../../views/pages/incidentList/IncidentListPage';
+import ReportIncidentPage from '../../views/pages/reportIncident/ReportIncidentPage';
+import IncidentDetailPage from '../../views/pages/incidentDetail/IncidentDetailPage';
+import RootCausePage from '../../views/pages/rootCause/RootCausePage';
+import UserManagementPage from '../../views/pages/userManagement/UserManagementPage';
 import NotFoundPage from '../../views/pages/NotFoundPage';
 
 export const routes = [

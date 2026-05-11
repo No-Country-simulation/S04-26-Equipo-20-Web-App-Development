@@ -5,7 +5,9 @@
  * Todos los services deben usar este cliente en lugar de fetch directamente.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+import { ENV } from '../../config/environment';
+
+const API_BASE_URL = ENV.API_URL;
 
 /**
  * Realiza una petición HTTP genérica.

@@ -3,9 +3,9 @@
  */
 
 export const USER_ROLES = {
-  ADMIN: 'admin',
-  SUPERVISOR: 'supervisor',
-  OPERATOR: 'operator',
+  ADMIN: 'ADMIN',
+  SUPERVISOR: 'SUPERVISOR',
+  OPERATOR: 'OPERARIO',
 };
 
 /**
@@ -16,8 +16,8 @@ export const USER_ROLES = {
 export function validateUser(data) {
   const errors = {};
 
-  if (!data.name || data.name.trim().length < 2) {
-    errors.name = 'El nombre debe tener al menos 2 caracteres';
+  if (!data.nombre || data.nombre.trim().length < 2) {
+    errors.nombre = 'El nombre debe tener al menos 2 caracteres';
   }
 
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
@@ -28,8 +28,8 @@ export function validateUser(data) {
     errors.password = 'La contraseña debe tener al menos 6 caracteres';
   }
 
-  if (!data.role || !Object.values(USER_ROLES).includes(data.role)) {
-    errors.role = 'Selecciona un rol válido';
+  if (!data.rol || !Object.values(USER_ROLES).includes(data.rol)) {
+    errors.rol = 'Selecciona un rol válido';
   }
 
   return {
@@ -39,8 +39,8 @@ export function validateUser(data) {
 }
 
 export const defaultUser = {
-  name: '',
+  nombre: '',
   email: '',
   password: '',
-  role: USER_ROLES.OPERATOR,
+  rol: USER_ROLES.OPERATOR,
 };

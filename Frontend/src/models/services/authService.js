@@ -5,6 +5,7 @@
  */
 
 import apiClient from './apiClient';
+import { ENV } from '../../config/environment';
 
 export const authService = {
   /**
@@ -19,7 +20,7 @@ export const authService = {
    * @param {object} userData - { name, email, password, role }
    * @returns {Promise<{ token, user }>}
    */
-  register: (userData) => apiClient.post('/auth/register', userData),
+  register: (userData) => apiClient.post(ENV.register, userData),
 
   /**
    * Cierra la sesión del usuario actual.

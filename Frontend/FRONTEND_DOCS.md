@@ -97,16 +97,18 @@ src/
 │   │   ├── Navbar/Navbar.jsx    #   Barra de navegación
 │   │   ├── Spinner/Spinner.jsx  #   Indicador de carga
 │   │   └── StatusBadge/         #   Badge de estado de incidente
-│   ├── pages/                   #   Páginas (una por ruta)
-│   │   ├── LoginPage.jsx
-│   │   ├── RegisterPage.jsx
-│   │   ├── DashboardPage.jsx
-│   │   ├── IncidentListPage.jsx
-│   │   ├── ReportIncidentPage.jsx
-│   │   ├── IncidentDetailPage.jsx
-│   │   ├── RootCausePage.jsx
-│   │   ├── UserManagementPage.jsx
-│   │   └── NotFoundPage.jsx
+│   ├── pages/                   #   Páginas (Patrón Contenedor/Presentacional)
+│   │   ├── login/               #   Cada página tiene su propia carpeta
+│   │   │   ├── LoginPage.jsx    #   (Presentational) HTML/CSS puro
+│   │   │   └── login.js         #   (Container) Lógica y estados de interfaz
+│   │   ├── register/
+│   │   ├── dashboard/
+│   │   ├── incidentList/
+│   │   ├── reportIncident/
+│   │   ├── incidentDetail/
+│   │   ├── rootCause/
+│   │   ├── userManagement/
+│   │   └── notFound/
 │   └── layouts/                 #   Estructuras de página
 │       ├── AppLayout.jsx        #   Con Navbar (rutas autenticadas)
 │       ├── AuthLayout.jsx       #   Sin Navbar (login/register)
@@ -196,16 +198,27 @@ Componentes **puramente visuales**. Solo reciben datos por props o hooks y rende
 #### Components
 Componentes reutilizables pequeños: `Navbar`, `Spinner`, `StatusBadge`.
 
-#### Pages
-Una página por ruta. Cada page usa un hook del controller:
+#### Pages (Patrón Contenedor / Presentacional)
+Una página por ruta dividida en dos responsabilidades:
+1. **Lógica de la Vista (`pagina.js`)**: Hook personalizado local que consume los controladores (`src/controllers`) y maneja estados de la UI (formularios, modales, formatos).
+2. **Vista Pura (`Pagina.jsx`)**: Componente "tonto" que solo renderiza.
 
 ```jsx
-// DashboardPage.jsx (VIEW)
-import { useDashboard } from '../../controllers/hooks/useDashboard';
+// src/views/pages/dashboard/dashboard.js (LÓGICA)
+import { useDashboard } from '../../../controllers/hooks/useDashboard';
+
+export function useDashboardLogic() {
+  const { metrics, loading } = useDashboard(); // ← usa CONTROLLER Global
+  const data = metrics || { total: 0 };        // ← lógica local de UI
+  return { data, loading };
+}
+
+// src/views/pages/dashboard/DashboardPage.jsx (VIEW PURA)
+import { useDashboardLogic } from './dashboard';
 
 function DashboardPage() {
-  const { metrics, loading } = useDashboard(); // ← usa CONTROLLER
-  // solo renderiza...
+  const { data, loading } = useDashboardLogic(); // ← usa LÓGICA LOCAL
+  // solo renderiza HTML y estilos...
 }
 ```
 
@@ -351,6 +364,7 @@ src/views/components/Alert/
 4. **Hooks son el único lugar** donde se mezcla estado + API
 5. **Un componente por archivo**
 6. **Props destructuradas** en la firma del componente
+7. **Resiliencia de UI (Offline-First):** Las vistas (`.jsx`) nunca deben bloquear su renderizado principal (`return <div className="error"/>`) si la llamada a la API falla. Los errores deben mostrarse como alertas no bloqueantes dentro del layout, y la capa lógica (`.js`) debe devolver datos por defecto (arrays vacíos, objetos vacíos) para que el mapeo HTML no genere errores.
 
 ---
 
@@ -452,15 +466,23 @@ npm run lint
 | `views/components/Navbar/Navbar.jsx` | View | Barra de navegación |
 | `views/components/Spinner/Spinner.jsx` | View | Indicador de carga |
 | `views/components/StatusBadge/StatusBadge.jsx` | View | Badge de estado |
-| `views/pages/LoginPage.jsx` | View | Página de login (Diseño aplicado) |
-| `views/pages/RegisterPage.jsx` | View | Página de registro (Diseño aplicado) |
-| `views/pages/DashboardPage.jsx` | View | Dashboard principal |
-| `views/pages/IncidentListPage.jsx` | View | Lista de incidentes |
-| `views/pages/ReportIncidentPage.jsx` | View | Formulario de reporte |
-| `views/pages/IncidentDetailPage.jsx` | View | Detalle de incidente |
-| `views/pages/RootCausePage.jsx` | View | Análisis de causas |
-| `views/pages/UserManagementPage.jsx` | View | Gestión de usuarios |
-| `views/pages/NotFoundPage.jsx` | View | Página 404 |
+| `views/pages/login/LoginPage.jsx` | View | Interfaz de login |
+| `views/pages/login/login.js` | View Logic | Lógica de estado de login |
+| `views/pages/register/RegisterPage.jsx` | View | Interfaz de registro |
+| `views/pages/register/register.js` | View Logic | Lógica de estado de registro |
+| `views/pages/dashboard/DashboardPage.jsx` | View | Interfaz del dashboard |
+| `views/pages/dashboard/dashboard.js` | View Logic | Lógica y defaults del dashboard |
+| `views/pages/incidentList/IncidentListPage.jsx` | View | Interfaz de lista de incidentes |
+| `views/pages/incidentList/incidentList.js` | View Logic | Lógica de filtros/listado |
+| `views/pages/reportIncident/ReportIncidentPage.jsx`| View | Interfaz de reporte |
+| `views/pages/reportIncident/reportIncident.js` | View Logic | Lógica formulario incidente |
+| `views/pages/incidentDetail/IncidentDetailPage.jsx`| View | Interfaz detalle incidente |
+| `views/pages/incidentDetail/incidentDetail.js` | View Logic | Lógica detalle incidente |
+| `views/pages/rootCause/RootCausePage.jsx` | View | Interfaz análisis de causas |
+| `views/pages/rootCause/rootCause.js` | View Logic | Lógica de causas |
+| `views/pages/userManagement/UserManagementPage.jsx`| View | Interfaz gestión usuarios |
+| `views/pages/userManagement/userManagement.js` | View Logic | Lógica listado usuarios |
+| `views/pages/notFound/NotFoundPage.jsx` | View | Página 404 |
 | `views/layouts/AppLayout.jsx` | View | Layout con navbar |
 | `views/layouts/AuthLayout.jsx` | View | Layout sin navbar |
 | `views/layouts/MobileLayout.jsx` | View | Layout móvil |
