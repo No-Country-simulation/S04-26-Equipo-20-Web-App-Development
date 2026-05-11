@@ -13,7 +13,7 @@ JWT_SECRET="CLAVE_SECRETA_PARA_JWT"
 JWT_EXPIRES_IN="TIEMPO_DE_EXPIRACION_DEL_TOKEN_ejemplo_10h"
 PORT=NUMERO_DE_PUERTO
 
-5. Ejecuta el backend con el comando `npm run dev`.
+5. Ejecuta el backend con el comando `npm run server`.
 
 **Base URL:** `http://localhost:3000/api`
 El puerto puede cambiar si see configura en el .env como PORT=XXXX
