@@ -9,7 +9,7 @@ import DashboardPage from '../../views/pages/dashboard/DashboardPage';
 import IncidentListPage from '../../views/pages/incidentList/IncidentListPage';
 import ReportIncidentPage from '../../views/pages/reportIncident/ReportIncidentPage';
 import IncidentDetailPage from '../../views/pages/incidentDetail/IncidentDetailPage';
-import RootCausePage from '../../views/pages/rootCause/RootCausePage';
+import RootCausePage from '../../views/pages/reports/ReportsPage';
 import UserManagementPage from '../../views/pages/userManagement/UserManagementPage';
 import NotFoundPage from '../../views/pages/NotFoundPage';
 

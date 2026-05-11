@@ -14,7 +14,6 @@ function ReportsPage() {
 
   return (
     <main className="bg-light min-vh-100 d-flex flex-column">
-     
 
       {/* CONTENIDO */}
       <div className="container-fluid px-3 py-4 flex-grow-1">
@@ -268,6 +267,115 @@ function ReportsPage() {
               </div>
             </article>
           </div>
+        </section>
+
+        {/* CARDS */}
+        <section
+          aria-labelledby="summary-cards-heading"
+          className="mb-4"
+        >
+          <h2
+            id="summary-cards-heading"
+            className="visually-hidden"
+          >
+            Resumen operativo
+          </h2>
+
+          {/* OPERACIONES */}
+          <article className="card border-0 shadow-sm rounded-4 mb-4">
+            <div className="card-body p-4">
+
+              <div className="d-flex align-items-center gap-4">
+
+                <div
+                  className="bg-black rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0"
+                  style={{ width: '64px', height: '64px' }}
+                >
+                  <i className="bi bi-people-fill fs-4"></i>
+                </div>
+
+                <div>
+                  <h3 className="fw-bold mb-1">
+                    Operaciones
+                  </h3>
+
+                  <p className="text-secondary mb-0">
+                    12 agentes activos hoy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {/* EFICIENCIA */}
+          <article className="card border-0 shadow-sm rounded-4">
+            <div className="card-body p-4">
+
+              <div className="d-flex align-items-center gap-4">
+
+                <div
+                  className="rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0"
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    backgroundColor: '#5b6b8a'
+                  }}
+                >
+                  <i className="bi bi-bar-chart-line-fill fs-4"></i>
+                </div>
+
+                <div>
+                  <h3 className="fw-bold mb-1">
+                    Eficiencia
+                  </h3>
+
+                  <p className="text-secondary mb-0">
+                    +8% mejora este mes
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* HERO */}
+        <section
+          aria-labelledby="strategic-summary-heading"
+          className="mb-5"
+        >
+          <article
+            className="position-relative overflow-hidden rounded-4 shadow-sm"
+            style={{ height: '220px' }}
+          >
+
+            <img
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"
+              alt="Dashboard estratégico"
+              className="w-100 h-100 object-fit-cover"
+            />
+
+            <div
+              className="position-absolute top-0 start-0 w-100 h-100"
+              style={{
+                background:
+                  'linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.15))'
+              }}
+            ></div>
+
+            <div className="position-absolute bottom-0 start-0 p-4 text-white">
+
+              <h2
+                id="strategic-summary-heading"
+                className="fw-bold display-6 mb-2"
+              >
+                Resumen Estratégico
+              </h2>
+
+              <p className="mb-0 fs-5">
+                Generado automáticamente para el equipo directivo.
+              </p>
+            </div>
+          </article>
         </section>
       </div>
     </main>
