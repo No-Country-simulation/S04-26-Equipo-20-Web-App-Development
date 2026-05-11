@@ -14,14 +14,118 @@ enum Role{
   SUPERVISOR
 }
 
+enum IncidentStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+  CANCELLED
+}
+
+enum IncidentType {
+  MACHINE_FAILURE
+  ACCIDENT
+  QUALITY_DEVIATION
+  SAFETY_RISK
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   nombre    String
   email     String   @unique
   password  String
-  rol    Role 
+  rol       Role
   createdAt DateTime @default(now())
+
+  createdIncidents  Incident[] @relation("IncidentCreator")
+  assignedIncidents Incident[] @relation("IncidentTechnician")
+  comments          Comment[]
 
   @@map("users")
 }
+
+model Area {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  incidents Incident[]
+
+  @@map("areas")
+}
+
+model RootCause {
+  id        Int        @id @default(autoincrement())
+  name      String
+  category  String
+  incidents Incident[]
+
+  @@map("root_causes")
+}
+
+model Incident {
+  id          Int            @id @default(autoincrement())
+  description String
+  type        IncidentType
+  priority    Priority
+  status      IncidentStatus @default(OPEN)
+  machine     String?
+  solution    String?
+  createdAt   DateTime       @default(now())
+  assignedAt  DateTime?
+  startedAt   DateTime?
+  resolvedAt  DateTime?
+  closedAt    DateTime?
+
+  creatorId   Int
+  creator     User       @relation("IncidentCreator", fields: [creatorId], references: [id])
+
+  technicianId Int?
+  technician   User?     @relation("IncidentTechnician", fields: [technicianId], references: [id])
+
+  areaId      Int
+  area        Area       @relation(fields: [areaId], references: [id])
+
+  rootCauseId Int?
+  rootCause   RootCause? @relation(fields: [rootCauseId], references: [id])
+
+  comments    Comment[]
+  history     IncidentHistory[]
+
+  @@map("incidents")
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  text       String
+  createdAt  DateTime @default(now())
+
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+
+  incidentId Int
+  incident   Incident @relation(fields: [incidentId], references: [id])
+
+  @@map("comments")
+}
+
+model IncidentHistory {
+  id         Int            @id @default(autoincrement())
+  oldStatus  IncidentStatus
+  newStatus  IncidentStatus
+  changedAt  DateTime       @default(now())
+
+  incidentId Int
+  incident   Incident @relation(fields: [incidentId], references: [id])
+
+  @@map("incident_history")
+}
+
 
