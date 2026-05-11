@@ -1,17 +1,25 @@
-import prisma from '../config/db.js'
+import {prisma} from '../config/db.js'
 
 export class UserRepository{
     
-    async create(userData){
+    async createUser(userData){
+        console.log("desde el repositorio",userData)
         return await prisma.user.create({
-            data:userData
+            
+            data:{
+                nombre:userData.nombre,
+                email:userData.email,
+                password:userData.password,
+                rol:userData.rol
+               
+            }
         })
     }
 
 
-    async findByEmail (correo){
+    async findByEmail (email){
     return await prisma.user.findUnique({
-        where:{correo}
+        where:{email}
     })
 }
 

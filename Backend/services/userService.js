@@ -5,11 +5,11 @@ const userRepository = new UserRepository();
 
 export class UserService{
 
-    async registerUser(createUserDto){
-        const existingUser = await UserRepository.findByEmail(createUserDto.correo)
+    async registerUser(userDate){
+        const existingUser = await userRepository.findByEmail(userDate.email)
         if(existingUser){
-            throw new Error("El correo ya esta restringido")
+            throw new Error("El correo ya esta registrado")
         }
-        return await UserRepository.create(createUserDto)
+        return await userRepository.createUser(userDate)
     }
 }
