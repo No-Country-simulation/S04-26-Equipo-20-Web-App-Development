@@ -1,10 +1,13 @@
 import { IncidentRepository } from '../repositories/incident.repository.js';
 import { UserRepository } from '../repositories/user.repository.js';
 import { AreaRepository } from '../repositories/area.repository.js';
+import { RootCauseRepository } from '../repositories/rootCause.repository.js';
+import { AppError } from '../errors/AppError.js';
 
 const incidentRepository = new IncidentRepository();
 const userRepository = new UserRepository();
 const areaRepository = new AreaRepository();
+const rootCauseRepository = new RootCauseRepository();
 
 const ALLOWED_TRANSITIONS = {
     OPEN: ['ASSIGNED', 'CANCELLED'],
@@ -20,7 +23,7 @@ export class IncidentService {
     async createIncident(creatorId, dto) {
         const area = await areaRepository.findById(dto.areaId);
         if (!area) {
-            throw new Error('El área especificada no existe');
+            throw new AppError('El área especificada no existe', 404);
         }
 
         return await incidentRepository.create({
@@ -37,7 +40,7 @@ export class IncidentService {
     async getIncident(id) {
         const incident = await incidentRepository.findById(id);
         if (!incident) {
-            throw new Error('Incidente no encontrado');
+            throw new AppError('Incidente no encontrado', 404);
         }
         return incident;
     }
@@ -52,10 +55,10 @@ export class IncidentService {
 
         const technician = await userRepository.findById(dto.technicianId);
         if (!technician) {
-            throw new Error('El técnico especificado no existe');
+            throw new AppError('El técnico especificado no existe', 404);
         }
         if (technician.rol !== 'TECNICO') {
-            throw new Error('El usuario asignado debe tener rol TECNICO');
+            throw new AppError('El usuario asignado debe tener rol TECNICO', 422);
         }
 
         await incidentRepository.addHistory(incidentId, incident.status, 'ASSIGNED');
@@ -72,7 +75,7 @@ export class IncidentService {
         this.validateTransition(incident.status, 'IN_PROGRESS');
 
         if (incident.technicianId !== userId) {
-            throw new Error('Solo el técnico asignado puede iniciar el progreso');
+            throw new AppError('Solo el técnico asignado puede iniciar el progreso', 403);
         }
 
         await incidentRepository.addHistory(incidentId, incident.status, 'IN_PROGRESS');
@@ -88,7 +91,17 @@ export class IncidentService {
         this.validateTransition(incident.status, 'RESOLVED');
 
         if (incident.technicianId !== userId) {
-            throw new Error('Solo el técnico asignado puede resolver el incidente');
+            throw new AppError('Solo el técnico asignado puede resolver el incidente', 403);
+        }
+
+        if (dto.rootCauseId) {
+            const rootCause = await rootCauseRepository.findById(dto.rootCauseId);
+            if (!rootCause) {
+                throw new AppError(
+                    `La causa raíz con ID ${dto.rootCauseId} no existe. Regístrela primero en /api/root-causes`,
+                    404,
+                );
+            }
         }
 
         await incidentRepository.addHistory(incidentId, incident.status, 'RESOLVED');
@@ -96,7 +109,7 @@ export class IncidentService {
         return await incidentRepository.update(incidentId, {
             status: 'RESOLVED',
             solution: dto.solution,
-            rootCauseId: dto.rootCauseId,
+            rootCauseId: dto.rootCauseId ?? null,
             resolvedAt: new Date(),
         });
     }
@@ -137,8 +150,9 @@ export class IncidentService {
     validateTransition(currentStatus, targetStatus) {
         const allowed = ALLOWED_TRANSITIONS[currentStatus] || [];
         if (!allowed.includes(targetStatus)) {
-            throw new Error(
-                `No se puede cambiar el estado de ${currentStatus} a ${targetStatus}`
+            throw new AppError(
+                `No se puede cambiar el estado de ${currentStatus} a ${targetStatus}`,
+                422,
             );
         }
     }

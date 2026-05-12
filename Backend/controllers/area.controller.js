@@ -1,4 +1,5 @@
 import { AreaService } from '../services/area.service.js';
+import { handleError } from '../middlewares/errorHandler.js';
 
 const areaService = new AreaService();
 
@@ -11,7 +12,7 @@ export const createArea = async (req, res) => {
         const area = await areaService.createArea(req.body.name);
         res.status(201).json({ ok: true, message: 'Área creada con éxito', data: area });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -23,7 +24,6 @@ export const listAreas = async (req, res) => {
         const areas = await areaService.listAreas();
         res.status(200).json({ ok: true, data: areas });
     } catch (error) {
-        res.status(500).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
-

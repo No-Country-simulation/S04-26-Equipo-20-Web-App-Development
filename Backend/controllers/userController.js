@@ -1,5 +1,6 @@
 import { UserService } from "../services/userService.js";
-import UserDTO from '../dto/userDto.js'
+import UserDTO from '../dto/userDto.js';
+import { handleError } from '../middlewares/errorHandler.js';
 
 const userService = new UserService();
 
@@ -10,13 +11,14 @@ const userService = new UserService();
 export const createUser = async (req, res) => {
     try {
         const userDto = new UserDTO(req.body);
-        const newUser = await userService.registerUser(userDto)
+        const newUser = await userService.registerUser(userDto);
         res.status(201).json({
+            ok: true,
             message: 'Usuario creado con éxito',
             data: { id: newUser.id, nombre: newUser.nombre, email: newUser.email, rol: newUser.rol },
         });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -29,7 +31,6 @@ export const loginUser = async (req, res) => {
         const result = await userService.loginUser(email, password);
         res.status(200).json({ ok: true, ...result });
     } catch (error) {
-        res.status(401).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
-

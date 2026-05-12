@@ -1,15 +1,8 @@
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
+import { handleValidation } from './validation.helper.js';
 
 const VALID_TYPES = ['MACHINE_FAILURE', 'ACCIDENT', 'QUALITY_DEVIATION', 'SAFETY_RISK', 'OTHER'];
 const VALID_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
-
-const handleValidation = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ ok: false, errors: errors.array() });
-    }
-    next();
-};
 
 export const validateCreateIncident = [
     body('description')

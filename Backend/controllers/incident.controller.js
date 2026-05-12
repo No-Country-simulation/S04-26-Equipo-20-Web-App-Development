@@ -5,6 +5,7 @@ import {
     ResolveIncidentDTO,
     CreateCommentDTO,
 } from '../dto/incident.dto.js';
+import { handleError } from '../middlewares/errorHandler.js';
 
 const incidentService = new IncidentService();
 
@@ -18,7 +19,7 @@ export const createIncident = async (req, res) => {
         const incident = await incidentService.createIncident(req.user.id, dto);
         res.status(201).json({ ok: true, message: 'Incidente registrado con éxito', data: incident });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -31,7 +32,7 @@ export const getIncident = async (req, res) => {
         const incident = await incidentService.getIncident(Number(req.params.id));
         res.status(200).json({ ok: true, data: incident });
     } catch (error) {
-        res.status(404).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -44,7 +45,7 @@ export const listIncidents = async (req, res) => {
         const incidents = await incidentService.listIncidents({ status, type, priority, areaId });
         res.status(200).json({ ok: true, data: incidents });
     } catch (error) {
-        res.status(500).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -59,7 +60,7 @@ export const assignTechnician = async (req, res) => {
         const incident = await incidentService.assignTechnician(Number(req.params.id), dto, req.user.id);
         res.status(200).json({ ok: true, message: 'Técnico asignado con éxito', data: incident });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -73,7 +74,7 @@ export const startProgress = async (req, res) => {
         const incident = await incidentService.startProgress(Number(req.params.id), req.user.id);
         res.status(200).json({ ok: true, message: 'Incidente en progreso', data: incident });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -88,7 +89,7 @@ export const resolveIncident = async (req, res) => {
         const incident = await incidentService.resolveIncident(Number(req.params.id), req.user.id, dto);
         res.status(200).json({ ok: true, message: 'Incidente resuelto', data: incident });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -102,7 +103,7 @@ export const closeIncident = async (req, res) => {
         const incident = await incidentService.closeIncident(Number(req.params.id));
         res.status(200).json({ ok: true, message: 'Incidente cerrado', data: incident });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -116,7 +117,7 @@ export const cancelIncident = async (req, res) => {
         const incident = await incidentService.cancelIncident(Number(req.params.id));
         res.status(200).json({ ok: true, message: 'Incidente cancelado', data: incident });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -129,7 +130,7 @@ export const addComment = async (req, res) => {
         const comment = await incidentService.addComment(Number(req.params.id), req.user.id, dto);
         res.status(201).json({ ok: true, message: 'Comentario agregado', data: comment });
     } catch (error) {
-        res.status(400).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
 
@@ -141,7 +142,6 @@ export const getHistory = async (req, res) => {
         const history = await incidentService.getHistory(Number(req.params.id));
         res.status(200).json({ ok: true, data: history });
     } catch (error) {
-        res.status(404).json({ ok: false, error: error.message });
+        handleError(res, error);
     }
 };
-
