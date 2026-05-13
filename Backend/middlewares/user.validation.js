@@ -1,4 +1,14 @@
-import { body, validationResult } from "express-validator";
+import { body, validationResult } from 'express-validator';
+
+const VALID_ROLES = ['ADMIN', 'TECNICO', 'OPERARIO', 'SUPERVISOR'];
+
+const handleValidation = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ ok: false, errors: errors.array() });
+    }
+    next();
+};
 
 export const validateUser = [
 
@@ -28,23 +38,21 @@ export const validateUser = [
         })
         .withMessage("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número"),
 
-    body("rolId")
-        .notEmpty()
-        .withMessage("El rol es obligatorio")
-        .isNumeric()
-        .withMessage("El rol debe ser numérico"),
+    body('rol')
+        .notEmpty().withMessage('El rol es obligatorio')
+        .isIn(VALID_ROLES).withMessage(`El rol debe ser uno de: ${VALID_ROLES.join(', ')}`),
 
-    (req, res, next) => {
+    handleValidation,
+];
 
-        const errors = validationResult(req);
+export const validateLogin = [
+    body('email')
+        .notEmpty().withMessage('El email es obligatorio')
+        .isEmail().withMessage('Formato de email inválido')
+        .normalizeEmail(),
 
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                ok: false,
-                errors: errors.array()
-            });
-        }
+    body('password')
+        .notEmpty().withMessage('La contraseña es obligatoria'),
 
-        next();
-    }
+    handleValidation,
 ];
