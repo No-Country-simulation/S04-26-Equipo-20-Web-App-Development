@@ -56,3 +56,22 @@ export const validateLogin = [
 
     handleValidation,
 ];
+export const validateUpdateUser = [
+    body("email")
+        .optional()
+        .isEmail()
+        .withMessage("Formato de email inválido")
+        .normalizeEmail(),
+
+    body("nombre")
+        .optional()
+        .isLength({ min: 2, max: 50 })
+        .withMessage("El nombre debe tener entre 2 y 50 caracteres")
+        .trim(),
+
+    body('rol')
+        .optional()
+        .isIn(VALID_ROLES).withMessage(`El rol debe ser uno de: ${VALID_ROLES.join(', ')}`),
+
+    handleValidation,
+];

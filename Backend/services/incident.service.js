@@ -45,7 +45,15 @@ export class IncidentService {
         return incident;
     }
 
-    async listIncidents(filters) {
+    async listIncidents(filters, user) {
+        // Lógica de filtrado por rol
+        if (user) {
+            if (user.rol === 'TECNICO') {
+                filters.technicianId = user.id;
+            } else if (user.rol === 'OPERARIO') {
+                filters.creatorId = user.id;
+            }
+        }
         return await incidentRepository.findAll(filters);
     }
 

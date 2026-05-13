@@ -28,12 +28,14 @@ export class IncidentRepository {
         });
     }
 
-    async findAll({ status, type, priority, areaId } = {}) {
+    async findAll({ status, type, priority, areaId, technicianId, creatorId } = {}) {
         const where = {};
         if (status) where.status = status;
         if (type) where.type = type;
         if (priority) where.priority = priority;
         if (areaId) where.areaId = Number(areaId);
+        if (technicianId) where.technicianId = Number(technicianId);
+        if (creatorId) where.creatorId = Number(creatorId);
 
         return await prisma.incident.findMany({
             where,
