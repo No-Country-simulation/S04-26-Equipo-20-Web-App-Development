@@ -42,7 +42,7 @@ export const getIncident = async (req, res) => {
 export const listIncidents = async (req, res) => {
     try {
         const { status, type, priority, areaId } = req.query;
-        const incidents = await incidentService.listIncidents({ status, type, priority, areaId });
+        const incidents = await incidentService.listIncidents({ status, type, priority, areaId }, req.user);
         res.status(200).json({ ok: true, data: incidents });
     } catch (error) {
         handleError(res, error);
